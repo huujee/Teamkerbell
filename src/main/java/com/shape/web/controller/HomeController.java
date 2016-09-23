@@ -11,14 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Handles requests for the application home page.
@@ -39,10 +37,6 @@ public class HomeController {
     AlarmService alarmService;
     @Autowired
     TodolistService todolistService;
-    @Autowired
-    ScheduleService scheduleService;
-    @Autowired
-    MinuteService minuteService;
     @Autowired
     FileDBService fileDBService;
 
@@ -87,7 +81,6 @@ public class HomeController {
         List<Project> lpj = projectService.getProjects(user); // 프로젝트 리스트를 반환
         List<Alarm> tlla = alarmService.getTimelines(user, 0, 15); // 타임라인 리스트를 반환
         List<Todolist> lt = todolistService.getTodolists(user); // 투두리스트 리스트를 반환
-        List<Schedule> ls = scheduleService.getSchedules(user); // 스케쥴 리스트를 반환
         List<Alarm> la = alarmService.getAlarms(user); // 알람 리스트를 반환
         ModelAndView mv = new ModelAndView("/dashboard");
         mv.addObject("user", user);
@@ -95,7 +88,6 @@ public class HomeController {
         mv.addObject("alarm", la);
         mv.addObject("projects", lpj);
         mv.addObject("todolist", lt);
-        mv.addObject("schedules", ls);
         return mv;
     }
 
@@ -118,20 +110,7 @@ public class HomeController {
         List<User> lu = userService.getUsersByProject(project); // 유저 리스트 반환
         //List<FileDB> lfd = fileDBRepository.groupbytest(project); // 파일 받아오기
 
-        if (project.isProcessed()) {
-            List<Minute> lm = minuteService.getMinutes(project); // 회의록 객체 반환
-            List<FileDB> img = fileDBService.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
-            project.setMinute(" "); //회의록 초기화
-            lm = lm.stream().filter(m -> {
-                        if (time.equals(m.getDate().toString())) {
-                            project.setMinute(m.getContent());
-                            return false;
-                        }
-                        return true;
-                    }
-            )
-                    .sorted()
-                    .collect(Collectors.toList());
+           List<FileDB> img = fileDBService.getImgs(project); // 파일디비 리스트중 이미지 리스트 반환
 
 
             String foldername = FileUtil.getFoldername(projectIdx, null);
@@ -145,45 +124,10 @@ public class HomeController {
             mv.addObject("users", lu);
             mv.addObject("user", user);
             mv.addObject("alarm", la);
-            mv.addObject("minutes", lm);
             mv.addObject("project", project);
             mv.addObject("img", img);
             mv.addObject("todolist", lt);
-        } else { // 위 ProjectRoom, 아래 Documentation
-            //ProjectService pjs = new ProjectService();
-            /*List<MeetingMember> lm = pjs.getMeetingMember(project); // 멤버 참석현황 반환
-            List<MemberGraph> lg = pjs.getMemberGraph(project); // 멤버 참석율 반환
-            List<String> username = new ArrayList<>();*/
-
-              /*  List<Integer> participant = new ArrayList<>();
-                List<Integer> percentage = new ArrayList<>();
-                for (MemberGraph temp : lg) { // 그래프 값 분리
-                    username.add("\"" + temp.getName() + "\"");
-                    if (temp.getParticipate() != null)
-                        participant.add(temp.getParticipate().intValue()); //참가율
-                    else
-                        participant.add(0);
-                    if (temp.getPercentage() != null)
-                        percentage.add(temp.getPercentage().intValue()); //달성율
-                    else
-                        percentage.add(0);
-                }*/
-
-
-            mv.addObject("user", user);
-            mv.addObject("projects", lpj);
-            mv.addObject("project", project);
-            mv.addObject("users", lu);
-            mv.addObject("alarm", la);
-            mv.addObject("todolist", lt);
-            // mv.addObject("meetingmember", lm);
-            // mv.addObject("files", lfd);
-            //mv.addObject("usersname", username);
-            //mv.addObject("participant", participant);
-            //mv.addObject("percentage", percentage);
-        } // Documentation 끝
         return mv;
-
     }
 
 

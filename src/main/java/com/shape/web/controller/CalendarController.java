@@ -2,10 +2,8 @@ package com.shape.web.controller;
 
 import com.shape.web.entity.Alarm;
 import com.shape.web.entity.Project;
-import com.shape.web.entity.Schedule;
 import com.shape.web.entity.User;
 import com.shape.web.service.ProjectService;
-import com.shape.web.service.ScheduleService;
 import com.shape.web.service.UserService;
 import com.shape.web.util.AlarmUtil;
 import lombok.extern.slf4j.Slf4j;

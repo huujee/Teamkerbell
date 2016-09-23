@@ -841,7 +841,6 @@
 
 <script type="text/javascript" src="../js/project/default.js"></script>
 <script type="text/javascript" src="../js/project/function.js"></script>
-<script type="text/javascript" src="../js/project/socket.js"></script>
 
 <script>
     var projectIdx =${project.projectidx};
@@ -855,7 +854,6 @@
     var currentMinute = '${project.minute}';
     var socket,table;
     init();
-    socketInit(user, projectIdx);
 </script>
 </body>
 </html>

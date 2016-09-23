@@ -1,7 +1,5 @@
 package com.shape.web.configuration;
 
-import com.shape.web.server.VertxServer;
-import com.shape.web.util.AlarmUtil;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,11 +33,6 @@ import java.util.Properties;
 public class SpringConfig {
     @Autowired
     private Environment env;
-
-    @Bean
-    VertxServer vertxServer(){
-        return new VertxServer();
-    }
 
     @Bean
     MultipartResolver multipartResolver(){
