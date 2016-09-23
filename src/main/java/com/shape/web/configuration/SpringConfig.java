@@ -29,7 +29,8 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "com.shape.web.repository")
 @EnableTransactionManagement
 @PropertySource("classpath:spring.properties")
-@ComponentScan(basePackageClasses = {com.shape.web.util.AlarmUtil.class})
+
+@ComponentScan(value={"com.shape.web.service", "com.shape.web.serviceImpl"},basePackageClasses = {com.shape.web.util.AlarmUtil.class})
 public class SpringConfig {
     @Autowired
     private Environment env;

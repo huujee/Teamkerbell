@@ -405,33 +405,6 @@
 
                         <!-- /.box-header -->
                         <div id="calendar" class="box-body table-responsive no-padding">
-                            <!--  <table class="table table-hover">
-                                <tr>
-                                    <th>Project</th>
-                                    <th>Duration</th>
-                                    <th>Register</th>
-                                </tr>
-                                <c:forEach var="list" items="${schedules}">
-                                    <c:choose>
-                                        <c:when test="${list.state=='0'}">
-                                            <tr>
-                                                <td>${list.project.name}</td>
-                                                <td>${list.startdate} - ${list.enddate}</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-xs" data-toggle="modal"
-                                                       data-target="#Rgmodal"
-                                                       onclick="toregister('${list.scheduleidx}','${list.startdate}','${list.enddate}')">Register</a>
-
-
-                                                </td>
-                                            </tr>
-                                        </c:when>
-                                    </c:choose>
-                                </c:forEach>
-                            </table>
-                        </div>-->
-                            <!-- /.box-body -->
-
 
                         </div>
                     </div>
@@ -542,23 +515,7 @@
         selectable: true,
         editable: true,
         eventDrop: function (event, delta, revertFunc) {
-            if (event.type == 'schedule') {
-                var param = {
-                    scheduleidx: event.sid, enddate: event.end.format(),
-                    startdate: event.start.format()
-                };
-                var datas = JSON.stringify(param);
-                $.ajax({
-                    url: "../schedule",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: datas,
-                    processData: false,
-                    success: function (data) {
-                    }
-                })
-            }
-            else if (event.type == 'todolist') {
+            if (event.type == 'todolist') {
                 var param = {
                     todolistidx: event.tid, enddate: event.end.format(),
                     startdate: event.start.format()
@@ -577,23 +534,7 @@
             }
         },
         eventResize: function (event, delta, revertFunc) {
-            if (event.type == 'schedule') {
-                var param = {
-                    scheduleidx: event.sid, enddate: event.end.format(),
-                    startdate: event.start.format()
-                };
-                var datas = JSON.stringify(param);
-                $.ajax({
-                    url: "../schedule",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: datas,
-                    processData: false,
-                    success: function (data) {
-                    }
-                })
-            }
-            else if (event.type == 'todolist') {
+            if (event.type == 'todolist') {
                 var param = {
                     todolistidx: event.tid, enddate: event.end.format(),
                     startdate: event.start.format()
@@ -616,18 +557,7 @@
              */
 
         },
-        events: [<c:forEach var="list" items="${schedules}">
-            {
-                sid: ${list.scheduleidx},
-                title: '[${list.project.name}] ${list.content}',
-                start: '${list.startdate}',
-                place: '${list.place}',
-                end: '${list.enddate}',
-                type: 'schedule'
-
-            },
-
-            </c:forEach>
+        events: [
                 <c:forEach var="list" items="${todolist}">{
                 tid:${list.todolistidx},
                 title: '[${list.project.name}] ${list.content}',
@@ -646,9 +576,7 @@
             },
             </c:forEach>],
         eventClick: function (event) {
-            if (event.type == 'schedule')
-                alert(event.place);
-            else if (event.type == 'todolist') {
+            if (event.type == 'todolist') {
                 var par = "id=" + event.tid;
                 $.ajax({
                     url: "../todocheck",

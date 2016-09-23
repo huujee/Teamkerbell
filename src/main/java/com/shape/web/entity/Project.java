@@ -56,14 +56,7 @@ public class Project implements Serializable{
     @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<FileDB> filedbs = new HashSet<FileDB>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "project")
-    private Set<Minute> minutes;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "project")
-    private Set<Schedule> schedules = new HashSet<Schedule>();
-    @JsonIgnore
+   @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Todolist> todolists = new HashSet<Todolist>();
 
@@ -78,14 +71,12 @@ public class Project implements Serializable{
     }
 
     public Project() {
-        minutes = new HashSet<Minute>();
     }
 
-    public Project(String name, Integer leaderidx, String minute) {
+    public Project(String name, Integer leaderidx) {
         this.name = name;
         this.leaderidx = leaderidx;
         this.minute = minute;
-        minutes = new HashSet<Minute>();
     }
 
     public void addUser(User user) {

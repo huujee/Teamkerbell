@@ -3,6 +3,7 @@ package com.shape.web.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,19 +11,21 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
 @Entity
 @Table(name = "Todolist")
-@EqualsAndHashCode(exclude={"project","user"})
+@EqualsAndHashCode(exclude = {"project", "user", "superTodolist"})
+@ToString(exclude={"user","project","superTodolist"})
 public class Todolist implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @Column(name = "TODOLISTIDX")
     private Integer todolistidx;
-
 
 
     @JsonIgnore
@@ -34,6 +37,15 @@ public class Todolist implements Serializable {
     @ManyToOne
     @JoinColumn(name = "PROJECTIDX")
     private Project project;
+
+
+    @OneToMany(mappedBy = "superTodolist")
+    private Set<Todolist> subTodolist= new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "SUPERTODOLISTIDX")
+    private Todolist superTodolist;
+
 
     @Column(name = "OK")
     private boolean ok = true;
@@ -54,10 +66,10 @@ public class Todolist implements Serializable {
     @Type(type = "date")
     private Date enddate;
 
-    @Column(name="CREATEDAT")
+    @Column(name = "CREATEDAT")
     private Date createdat;
 
-    @Column(name="UPDATEDAT")
+    @Column(name = "UPDATEDAT")
     private Date updatedat;
 
     @PrePersist
@@ -70,7 +82,19 @@ public class Todolist implements Serializable {
         updatedat = new Date();
     }
 
-    public Todolist() {}
+    public Todolist() {
+    }
+
+    public Todolist(String content, Date startdate, Date enddate) {
+        this.content = content;
+        this.startdate = startdate;
+        this.enddate = enddate;
+    }
+
+    public void addsubTodolist(Todolist todo) {
+        this.subTodolist.add(todo);
+        todo.setSuperTodolist(this);
+    }
 
 
 }

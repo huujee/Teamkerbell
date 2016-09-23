@@ -18,15 +18,8 @@ public class AlarmUtil {
     private static final Logger logger = LoggerFactory.getLogger(AlarmUtil.class);
 
 
-
-
-    static ScheduleService scheduleService;
     static AlarmService alarmService;
 
-    @Autowired(required = true)
-    public void setScheduleService(ScheduleService scheduleService) {
-        AlarmUtil.scheduleService = scheduleService;
-    }
 
     @Autowired(required = true)
     public void setAlarmService(AlarmService alarmService) {
@@ -41,8 +34,6 @@ public class AlarmUtil {
             alarm.setAlarmidx(null);
             alarm.setUser(u);
             logger.info("[USER " + u.getUseridx() + "] Make Alarm");
-            if(isSchedule)
-                scheduleService.clear(u);
             alarmService.save(alarm);
             logger.info("SAVE");
         });

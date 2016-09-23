@@ -21,7 +21,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan({"com.shape.web.service", "com.shape.web.serviceImpl"})
+//@ComponentScan({"com.shape.web.service", "com.shape.web.serviceImpl"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
