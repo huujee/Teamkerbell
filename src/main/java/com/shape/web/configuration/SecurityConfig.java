@@ -21,7 +21,6 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
  */
 @Configuration
 @EnableWebSecurity
-//@ComponentScan({"com.shape.web.service", "com.shape.web.serviceImpl"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -74,8 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //.and()
                 .authorizeRequests()
-                .antMatchers("/", "/register", "/login", "/user").permitAll()
-                .antMatchers("/**").hasRole("USER")
+                .antMatchers("/**", "/register", "/login", "/user").permitAll()
+               // .antMatchers("/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

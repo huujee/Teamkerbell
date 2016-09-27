@@ -47,14 +47,18 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)    //시작부
     public ModelAndView Home( Authentication authentication) {
         ModelAndView mv = null;
+        /*
         if (authentication == null) {
             mv = new ModelAndView("/login");
             mv.addObject("tempUser", new User());
         } else
             mv = new ModelAndView("redirect:/dashboard");
+        return mv;*/
+        mv=new ModelAndView("/index");
+        mv.addObject("test","test");
         return mv;
     }
-
+/*
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String goDashboard(Authentication authentication) {
 
@@ -149,5 +153,5 @@ public class HomeController {
         return mv;
     }
 
-
+*/
 }

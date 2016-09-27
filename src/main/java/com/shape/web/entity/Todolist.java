@@ -42,13 +42,14 @@ public class Todolist implements Serializable {
     @OneToMany(mappedBy = "superTodolist")
     private Set<Todolist> subTodolist= new HashSet<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "SUPERTODOLISTIDX")
     private Todolist superTodolist;
 
 
     @Column(name = "OK")
-    private boolean ok = true;
+    private boolean ok = false;
 
     @NotNull
     @Column(name = "CONTENT", columnDefinition = "TEXT")
