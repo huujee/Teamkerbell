@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by seongahjo on 2016. 6. 14..
@@ -42,14 +43,19 @@ public class TodolistController {
                                            @RequestParam(value = "page", defaultValue = "0") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size) {
         //return todolistService.getTodolists(userService.getUserById(userId));
-        List l = todolistService.getTodolists(userService.getUser(userIdx));
+        List<Todolist> l = todolistService.getTodolists(userService.getUser(userIdx));
+        l=l.stream().filter(temp -> (temp.getSuperTodolist() == null))
+                .collect(Collectors.toList());
         Page<Todolist> todolists = new PageImpl(l, new PageRequest(page, size), l.size());
         return new PageResource<Todolist>(todolists, "page", "size");
     }
 
     @RequestMapping(value = "/todolist/{projectIdx}/project", method = RequestMethod.GET)
     public List<Todolist> todolistbypj(@PathVariable("projectIdx") Integer projectIdx) {
-        return todolistService.getTodolists(projectService.getProject(projectIdx));
+        List<Todolist> l =todolistService.getTodolists(projectService.getProject(projectIdx));
+        l=l.stream().filter(temp -> (temp.getSuperTodolist() == null))
+                .collect(Collectors.toList());
+        return l;
     }
 
     /*
