@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,30 +39,33 @@ public class TodolistController {
     TodolistService todolistService;
 
 
-    @RequestMapping(value = "/todolist/{userIdx}/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/todolist/{userIdx}/user", method = RequestMethod.GET)
     public PageResource<Todolist> todolist(@PathVariable("userIdx") Integer userIdx,
                                            @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                           @RequestParam(value = "size", defaultValue = "10") Integer size) {
+                                           @RequestParam(value = "size", defaultValue = "3") Integer size) {
         //return todolistService.getTodolists(userService.getUserById(userId));
         List<Todolist> l = todolistService.getTodolists(userService.getUser(userIdx));
-        l=l.stream().filter(temp -> (temp.getSuperTodolist() == null))
+        l = l.stream().filter(temp -> (temp.getSuperTodolist() == null))
                 .collect(Collectors.toList());
         Page<Todolist> todolists = new PageImpl(l, new PageRequest(page, size), l.size());
         return new PageResource<Todolist>(todolists, "page", "size");
     }
 
-    @RequestMapping(value = "/todolist/{projectIdx}/project", method = RequestMethod.GET)
-    public List<Todolist> todolistbypj(@PathVariable("projectIdx") Integer projectIdx) {
-        List<Todolist> l =todolistService.getTodolists(projectService.getProject(projectIdx));
-        l=l.stream().filter(temp -> (temp.getSuperTodolist() == null))
+    @RequestMapping(value = "/api/todolist/{projectIdx}/project", method = RequestMethod.GET)
+    public PageResource<Todolist> todolistbypj(@PathVariable("projectIdx") Integer projectIdx,
+                                               @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                               @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        List<Todolist> l = todolistService.getTodolists(projectService.getProject(projectIdx));
+        l = l.stream().filter(temp -> (temp.getSuperTodolist() == null))
                 .collect(Collectors.toList());
-        return l;
+        Page<Todolist> todolists = new PageImpl(l, new PageRequest(page, size), l.size());
+        return new PageResource<Todolist>(todolists, "page", "size");
     }
 
     /*
    To make to-do list
    */
-    @RequestMapping(value = "/todolist", method = RequestMethod.POST) // todolist 생성
+    @RequestMapping(value = "/api/todolist", method = RequestMethod.POST) // todolist 생성
     public ResponseEntity makeTodolist(@RequestParam("projectIdx") Integer projectIdx,
                                        @RequestParam("userId") String userId,
                                        @ModelAttribute("todolist") @Valid Todolist todolist,
@@ -71,12 +75,15 @@ public class TodolistController {
             User user = userService.getUser(userId); // 어떤 user에게 할당하는가
             todolist.setProject(project); // todolist가 어디 프로젝트에서 생성되었는가
             todolist.setUser(user); // todolist가 누구것인가
+            todolist.setStartdate(new Date());
             todolistService.save(todolist); // todolist 생성
             log.info("todolist 만듬");
             return new ResponseEntity(HttpStatus.CREATED);
-        } else
+        } else {
+            log.info(result.getAllErrors()+" ");
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
+        }
+        }
 
     @RequestMapping(value = "/todolist", method = RequestMethod.PUT)
     public void modifyTodolist(@RequestBody Todolist todolist) {

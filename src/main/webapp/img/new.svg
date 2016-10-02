@@ -1,0 +1,14 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90.16 90.4">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#b5b5b5;stroke-miterlimit:10;stroke-width:1.5px;}.cls-2{fill:#f4f4f4;}.cls-3{font-size:29.89px;fill:#10665c;font-family:SeoulNamsan
+            CBL;}
+        </style>
+    </defs>
+    <title>new</title>
+    <polygon class="cls-1"
+             points="83.5 0.99 6.66 0.99 0.75 6.91 0.75 83.74 6.66 89.65 83.5 89.65 89.41 83.74 89.41 6.91 83.5 0.99"/>
+    <polygon class="cls-2"
+             points="82.79 0 5.96 0 0.04 5.91 0.04 82.75 5.96 88.66 82.79 88.66 88.7 82.75 88.7 5.91 82.79 0"/>
+    <text class="cls-3" transform="translate(17.4 54.56)">NEW</text>
+</svg>

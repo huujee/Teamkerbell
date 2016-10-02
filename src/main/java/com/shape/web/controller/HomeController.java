@@ -52,6 +52,12 @@ public class HomeController {
         mv.addObject("test","test");
         return mv;
     }
+
+    @RequestMapping(value={"/dashboard/**","/project/**"}, method=RequestMethod.GET)
+    public String redriect(){
+        return "redirect:/";
+    }
+
         /*
         if (authentication == null) {
             mv = new ModelAndView("/login");

@@ -45,7 +45,7 @@ public class UserController {
         return userService.getUser(userIdx);
     }
 
-    @RequestMapping(value="/user/{projectIdx}/project",method = RequestMethod.GET)
+    @RequestMapping(value="/api/user/{projectIdx}/project",method = RequestMethod.GET)
     @ResponseBody
     public List getUsers(@PathVariable("projectIdx") Integer projectIdx,
                          @RequestParam(value = "page",defaultValue = "0") Integer page,

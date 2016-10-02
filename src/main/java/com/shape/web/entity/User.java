@@ -61,7 +61,7 @@ public class User implements Serializable {
     private Set<Alarm> alarmsuser = new HashSet<Alarm>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Alarm> logs = new HashSet<Alarm>();
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

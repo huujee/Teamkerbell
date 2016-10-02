@@ -45,19 +45,24 @@ public class ProjectController {
         GET : INVITE
      */
 
-    @RequestMapping(value="/room/{userIdx}/user",method=RequestMethod.GET)
+    @RequestMapping(value="/api/room/{userIdx}/user",method=RequestMethod.GET)
     public List getRooms(@PathVariable(value="userIdx") Integer userIdx,
                          @RequestParam(value="page",defaultValue="0") Integer page,
-                         @RequestParam(value="count", defaultValue="15") Integer count){
+                         @RequestParam(value="count", defaultValue="5") Integer count){
         return projectService.getProjects(userService.getUser(userIdx),page,count);
     }
 
-    @RequestMapping(value = "/room", method = RequestMethod.GET)    //프로젝트 반환
-    public List getRoom(@RequestParam(value = "page", defaultValue="0") Integer page, HttpSession session) {
+    @RequestMapping(value = "/api/room", method = RequestMethod.GET)    //프로젝트 반환
+    public List getRooms(@RequestParam(value = "page", defaultValue="0") Integer page, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Project> projects = projectService.getProjects(user, page,5);
         log.info("room paging");
         return projects;
+    }
+
+    @RequestMapping(value="/api/room/{projectidx}",method=RequestMethod.GET)
+    public Project getRoom(@PathVariable(value="projectidx") Integer projectidx){
+        return projectService.getProject(projectidx);
     }
 
     /*
@@ -77,12 +82,12 @@ public class ProjectController {
     /*
     To delete project room
     */
-    @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
+    @RequestMapping(value = "/api/room/{projectIdx}", method = RequestMethod.DELETE)    //프로젝트 삭제
     public void deleteRoom(@PathVariable("projectIdx") Integer projectIdx) {
         projectService.delete(projectIdx);
     }
 
-    @RequestMapping(value = "/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
+    @RequestMapping(value = "/api/room/{projectIdx}", method = RequestMethod.PUT)    //프로젝트 삭제
     public void updadeRoom(@PathVariable("projectIdx") Integer projectIdx,HttpSession session) {
         User u=(User) session.getAttribute("user");
         Project project = projectService.getProject(projectIdx);

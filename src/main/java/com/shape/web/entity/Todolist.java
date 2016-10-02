@@ -55,7 +55,6 @@ public class Todolist implements Serializable {
     @Column(name = "CONTENT", columnDefinition = "TEXT")
     private String content;
 
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "STARTDATE")
     @Type(type = "date")

@@ -76,7 +76,6 @@ public class Project implements Serializable{
     public Project(String name, Integer leaderidx) {
         this.name = name;
         this.leaderidx = leaderidx;
-        this.minute = minute;
     }
 
     public void addUser(User user) {
