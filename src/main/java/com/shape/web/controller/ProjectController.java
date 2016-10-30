@@ -140,4 +140,16 @@ public class ProjectController {
     }
 
 
+    @RequestMapping(value = "/room", method = RequestMethod.POST)    //프로젝트 개설
+    public String MakeRoom(@RequestParam(value = "name") String name, HttpSession session) {
+        Integer useridx =(Integer) session.getAttribute("useridx");
+        User user = userService.getUser(useridx);
+        Integer userIdx = user.getUseridx();
+        Project project = new Project(name, userIdx, "");
+        user.addProject(project);
+        projectService.save(user,project);
+        return "redirect:/projectmanager";
+    }
+
+
 }

@@ -370,7 +370,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">Make new Project</h4>
             </div>
-            <form id="makeForm" action="room" method="post" accept-charset="UTF-8">
+            <form id="makeForm" method="post" accept-charset="UTF-8">
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group has-success">
