@@ -530,7 +530,8 @@
 <script>
    // console.log('<spring:message code="test"/> ');
     init();
-    var page = 0;
+    var page = 1;
+    var useridx=${user.useridx};
 
     // fullcalendar
     $('#calendar').fullCalendar({

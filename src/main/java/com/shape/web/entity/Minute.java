@@ -47,16 +47,12 @@ public class Minute implements Serializable, Comparable<Minute>{
         updatedat = new Date();
     }
 
-    public Minute() {
-    }
-
+    public Minute() {}
 
     public Minute( String content, Date date) {
         this.content = content;
         this.date = date;
     }
-
-
     @Override
     public int compareTo(Minute m) {
         return  m.getDate().after(getDate())? 1:-1;

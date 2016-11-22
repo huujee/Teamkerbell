@@ -1,13 +1,14 @@
 function more() {
     var par = "page=" + page;
     $.ajax({
-        url: "../moreTimeline",
+        url: "../timeline/"+useridx,
         data: par,
         dataType: 'json',
         async: true,
         type: 'GET',
         success: function (data) {
             page += 1;
+            console.log(page);
             var append = '';
             $.each(data, function (index, temp) {
                 if (temp.contentid == 1) {

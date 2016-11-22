@@ -109,7 +109,18 @@ public class VertxServer extends DefaultEmbeddableVerticle {
             socket.on("msg", event -> {
                 ServerUser su = Clients.get(socket.getId());
                 String projectIdx = su.getProjectIdx();
-                event.putString("msg", CommonUtils.encodeContent(event.getString("msg")));
+                String msg= CommonUtils.encodeContent(event.getString("msg"));
+                //URL?
+                /*
+                    www.
+                    http://
+                    .com
+                 */
+                if(msg.contains("//")){
+
+                }
+                event.putString("msg", msg);
+
                 event.putString("img", su.getImg());
                 event.putString("user", su.getName());
                 io.sockets().in(projectIdx).emit("response", event);

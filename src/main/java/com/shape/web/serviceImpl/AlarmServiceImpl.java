@@ -59,7 +59,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 
     @Override
-    @Cacheable(value = "alarms", key = "'user:'.concat(#p0.useridx).concat(':timelines')")
+    @Cacheable(value = "timelines", key = "'user:'.concat(#p0.useridx).concat(':timelines:page:').concat(#p1)")
     public List<Alarm> getTimelines(User u, Integer page, Integer count) {
         return alarmRepository.findByUserOrderByDateDesc(u, new PageRequest(page, count));
     }
@@ -70,8 +70,10 @@ public class AlarmServiceImpl implements AlarmService {
             @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':alarms')"),
             @CacheEvict(value = "alarm", key = "'alarm:'.concat(#p0.alarmidx)"),
             @CacheEvict(value = "alarm", key = "'user:'.concat(#p0.user.useridx).concat(':alarm')"),
-            @CacheEvict(value = "alarms", key = "'user:'.concat(#p0.user.useridx).concat(':timelines')")
+            @CacheEvict(value = "timelines", key = "'user:'.concat(#p0.user.useridx).concat(':timelines')")
     })
+
+    // paging cacheevict문제 해결해야함
     public Alarm save(Alarm a) {
         /*Alarm temp = null;
         if (a.getContentid() == 0)

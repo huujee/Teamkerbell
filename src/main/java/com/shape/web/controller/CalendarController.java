@@ -11,6 +11,7 @@ import com.shape.web.util.AlarmUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -34,17 +35,29 @@ public class CalendarController {
     @Autowired
     UserService userService;
 
-
+    /**
+     * get Schedules
+     * @param userIdx
+     * @param page
+     * @param size
+     * @return List of schedules
+     */
     @RequestMapping(value="/schedule/{userIdx}/user",method=RequestMethod.GET)
-    public List getSchedules(@PathVariable("userIdx")Integer userIdx,
-                             @RequestParam(value = "page",defaultValue = "0") Integer page,
-                             @RequestParam(value="size",defaultValue = "10") Integer size){
-        return scheduleService.getSchedules(userService.getUser(userIdx));
+    public ResponseEntity getSchedules(@PathVariable("userIdx")Integer userIdx,
+                                       @RequestParam(value = "page",defaultValue = "0") Integer page,
+                                       @RequestParam(value="size",defaultValue = "10") Integer size){
+        List lists=scheduleService.getSchedules(userService.getUser(userIdx));
+        if(lists.size()!=0)
+            return ResponseEntity.ok(lists);
+        return ResponseEntity.badRequest().body("Empty list");
     }
 
-    /*
-   To make schedule
-   */
+    /**
+     * Make Schedule
+     * @param projectIdx
+     * @param schedule
+     */
+
     @RequestMapping(value = "/schedule", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void makeSchedule(@RequestParam("projectIdx") Integer projectIdx, @ModelAttribute("schedule") Schedule schedule) {
@@ -59,6 +72,10 @@ public class CalendarController {
 
     }
 
+    /**
+     * Update Schedule
+     * @param schedule
+     */
     @RequestMapping(value = "/schedule", method = RequestMethod.PUT)
     public void updateSchedule(@RequestBody Schedule schedule) {
         Schedule s = scheduleService.getSchedule(schedule.getScheduleidx());
